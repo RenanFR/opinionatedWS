@@ -1,0 +1,43 @@
+version: "3.0"
+services:
+
+  opinions-consul:
+    image: consul:latest
+    ports:
+        - 8500:8500
+        - 8300:8300
+    volumes:
+        - /tmp:/config
+        - /tmp:/data
+    command: agent -server -data-dir=/data -ui -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect=1
+    
+  opinions-mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root    
+    ports:
+    - 27017:27017
+                
+  opinions-db:
+    image: postgres
+    volumes:
+      - /tmp/backup:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=opinionated
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5433:5432
+      
+  opinions-ws:
+    image: opinionatedws
+    ports:
+      - 8090:80
+    environment:
+      - PORT=8090      
+    depends_on:
+      - opinions-db
+      - opinions-mongo
+      - opinions-consul

@@ -3,7 +3,7 @@ spring:
     name: opinionated
   cloud:
     consul:
-      host: localhost
+      host: opinions-consul
       port: 8500
       config:
         enabled: true
