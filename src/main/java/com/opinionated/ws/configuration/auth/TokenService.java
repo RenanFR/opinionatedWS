@@ -35,7 +35,7 @@ public class TokenService {
 	
 	public static void addTokenToResponse(HttpServletResponse response, String userName) {
 		String jsonWebToken = createToken(userName);
-		response.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + jsonWebToken);
+		response.addHeader(HEADER_STRING, jsonWebToken);
 	}
 	
 	public static String createToken(String userName) {
