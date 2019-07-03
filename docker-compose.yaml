@@ -13,13 +13,12 @@ services:
     
   opinions-mongo:
     image: mongo
-    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root    
+      MONGO_INITDB_ROOT_PASSWORD: root
     ports:
-    - 27017:27017
-                
+      - 27017:27017
+            
   opinions-db:
     image: postgres
     volumes:
@@ -36,8 +35,11 @@ services:
     ports:
       - 8090:80
     environment:
-      - PORT=8090      
+      - PORT=8090
     depends_on:
       - opinions-db
       - opinions-mongo
       - opinions-consul
+    links:
+      - opinions-mongo
+#    command: sh curl --request PUT --data 'TEST PROPERTY ON WITH CONSUL TO TEST EXTERNAL CONFIGURATION' http://opinions-consul:8500/v1/kv/config/opinionated/foo

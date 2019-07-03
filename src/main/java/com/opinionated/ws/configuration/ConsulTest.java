@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsulTest implements InitializingBean	{
 	
-	@Value("${foo}")
-	private String testValue;
+//	@Value("${foo}")
+//	private String testValue;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConsulTest.class);
 	
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		LOGGER.info(testValue);
+//		LOGGER.info(testValue);
 	}
 }
