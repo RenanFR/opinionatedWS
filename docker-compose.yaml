@@ -42,4 +42,14 @@ services:
       - opinions-consul
     links:
       - opinions-mongo
+      
+  opinions-front:
+    image: opinionatedapp
+#    volumes:
+#      - .:/opinionatedWeb
+#      - /opinionatedWeb/node_modules
+    ports:
+      - 4201:4200
+#    depends_on:
+#      - opinions-ws
 #    command: sh curl --request PUT --data 'TEST PROPERTY ON WITH CONSUL TO TEST EXTERNAL CONFIGURATION' http://opinions-consul:8500/v1/kv/config/opinionated/foo
