@@ -2,6 +2,7 @@ package com.opinionated.ws.resources;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -108,9 +109,11 @@ public class LoginController {
 	
 	private User saveSocialUser(GmailUser gmailUser) {
 		User user = new User();
-		user.setName(gmailUser.getEmail());
+		user.setName(gmailUser.getName());
 		user.setPassword("");
 		user.setSocialLogin(true);
+		user.setInclusionDate(LocalDate.now().toString());
+		user.setEmail(gmailUser.getEmail());
 		Set<Profile> roleProfile = Collections.singleton(userService.findProfileByDescription("ROLE"));
 		user.setProfiles(new ArrayList<Profile>(roleProfile));
 		userService.saveUser(user);
@@ -118,7 +121,7 @@ public class LoginController {
 	}
 	
 	public User checkGmailUser(GmailUser gmailUser) {
-		User onDatabase = userService.findByName(gmailUser.getEmail());
+		User onDatabase = userService.findByName(gmailUser.getName());
 		if (onDatabase == null) {
 			return saveSocialUser(gmailUser);
 		}

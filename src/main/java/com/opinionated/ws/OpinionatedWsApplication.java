@@ -1,5 +1,6 @@
 package com.opinionated.ws;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import org.slf4j.Logger;
@@ -28,14 +29,17 @@ public class OpinionatedWsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OpinionatedWsApplication.class, args);
 	}
+	
 	@EventListener(ApplicationReadyEvent.class)
 	public void fillUser() {
 		if (userService.getAll().isEmpty()) {
 			LOGGER.info("No users available, creating a test default user");
 			User user = new User();
 			user.setName("user");
+			user.setEmail("renan.rodrigues@accountfy.com");
 			user.setPassword("pass");
 			user.setSocialLogin(false);
+			user.setInclusionDate(LocalDate.now().toString());
 			if (userService.getAllProfiles().isEmpty()) {
 				Profile profile = new Profile();
 				profile.setRole("ROLE");

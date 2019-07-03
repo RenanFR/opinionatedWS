@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 //Model for user information
 @Entity
 @Table(name = "tbl_user")
-public class User implements UserDetails{
+public class User implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -31,10 +31,14 @@ public class User implements UserDetails{
 
 	private String name;
 	
+	private String email;
+	
 	private String password;
 	
 	@Column(name = "is_social_login")
 	private Boolean isSocialLogin;
+	
+	private String inclusionDate;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tbl_user_profile",
@@ -84,6 +88,14 @@ public class User implements UserDetails{
 		this.name = name;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -128,6 +140,14 @@ public class User implements UserDetails{
 
 	public void setSocialLogin(Boolean isSocialLogin) {
 		this.isSocialLogin = isSocialLogin;
+	}
+
+	public String getInclusionDate() {
+		return inclusionDate;
+	}
+
+	public void setInclusionDate(String inclusionDate) {
+		this.inclusionDate = inclusionDate;
 	}
 
 }

@@ -1,7 +1,12 @@
 package com.opinionated.ws.configuration.auth;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,9 +45,16 @@ public class TokenService {
 	
 	public static String createToken(String userName) {
 		User user = userService.findByName(userName);
+		Map<String, Object> claims = new HashMap<>();
+		claims.put("userEmail", user.getEmail());
+		claims.put("socialUser", user.isSocialLogin());
+		claims.put("inclusionDate", DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.parse(user.getInclusionDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+		String profiles = user.getAuthorities().stream().map(r -> r.getAuthority()).collect(Collectors.joining(","));
+		claims.put("profiles", profiles);
 		return TOKEN_PREFIX + " " + Jwts.builder()
 			.setSubject(user.getUsername())
 			.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+			.addClaims(claims)
 			.signWith(SignatureAlgorithm.HS512, SECRET)
 			.compact();
 	}
