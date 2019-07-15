@@ -1,0 +1,15 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: opinionated-deploy
+spec:
+  template:
+    metadata:
+      labels:
+       name: opinionated-pod
+    spec:
+      containers:
+        - name: opinionated-container
+          image: opinionatedws
+          ports:
+            - containerPort: 80

@@ -20,4 +20,4 @@ FROM adoptopenjdk/openjdk8:jdk8u202-b08-alpine-slim
 COPY --from=builder /opinionatedWS/target/opinionatedWS-*.jar /opinionatedWS.jar
 # Run the web service on container startup.
 CMD ["curl.sh"]
-CMD ["java","-Djava.security.egd=file:/dev/./urandom","-Dserver.port=${PORT}","-jar","/opinionatedWS.jar"]
+CMD ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=develop","-Dserver.port=${PORT}","-jar","/opinionatedWS.jar"]

@@ -1,0 +1,36 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: statefulset-pg
+spec:
+  serviceName: db-opinionated-set
+  template:
+    metadata:
+      labels:
+       name: pgdb
+    spec:
+      containers:
+        - name: pg-container
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              value: postgres
+
+            - name: POSTGRES_DB
+              value: opinionated
+
+            - name: PGDATA
+              value: /var/lib/postgresql/10/main
+
+          volumeMounts:
+            - name: volume-pgdb
+              mountPath: /var/lib/postgresql/10/main
+      volumes:
+       - name: volume-pgdb
+         persistentVolumeClaim:
+           claimName: pg-volume-claim
