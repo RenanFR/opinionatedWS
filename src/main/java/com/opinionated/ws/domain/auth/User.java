@@ -35,8 +35,12 @@ public class User implements UserDetails {
 	
 	private String password;
 	
+	private boolean using2FA;
+	
+	private String twoFASecret;
+	
 	@Column(name = "is_social_login")
-	private Boolean isSocialLogin;
+	private boolean socialLogin;
 	
 	private String inclusionDate;
 	
@@ -53,7 +57,7 @@ public class User implements UserDetails {
 		this.id = id;
 		this.name = name;
 		this.password = password;
-		this.isSocialLogin = isSocialLogin;
+		this.socialLogin = isSocialLogin;
 		this.profiles = profiles;
 	}
 
@@ -134,12 +138,28 @@ public class User implements UserDetails {
 		return true;
 	}
 
-	public Boolean isSocialLogin() {
-		return isSocialLogin;
+	public boolean isSocialLogin() {
+		return socialLogin;
 	}
 
-	public void setSocialLogin(Boolean isSocialLogin) {
-		this.isSocialLogin = isSocialLogin;
+	public void setSocialLogin(Boolean socialLogin) {
+		this.socialLogin = socialLogin;
+	}
+
+	public boolean isUsing2FA() {
+		return using2FA;
+	}
+
+	public void setUsing2FA(boolean using2fa) {
+		using2FA = using2fa;
+	}
+
+	public String getTwoFASecret() {
+		return twoFASecret;
+	}
+
+	public void setTwoFASecret(String twoFASecret) {
+		this.twoFASecret = twoFASecret;
 	}
 
 	public String getInclusionDate() {
