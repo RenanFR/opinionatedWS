@@ -35,7 +35,8 @@ public class User implements UserDetails {
 	
 	private String password;
 	
-	private boolean using2FA;
+	@Column(name = "using_2fa")
+	private Boolean using2FA;
 	
 	private String twoFASecret;
 	

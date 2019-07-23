@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService{
 	public void signUp(User user) {
 		List<Profile> allProfile = user.getProfiles();
 		for (Profile profile : allProfile) {
-			if (profileRepository.findOne(profile.getRole()) == null) {
+			if (profileRepository.findById(profile.getRole()).get() == null) {
 				profileRepository.save(profile);
 			}
 		}
@@ -73,7 +73,7 @@ public class UserService implements UserDetailsService{
 	}
 	
 	public Profile findProfileByDescription(String id) {
-		return profileRepository.findOne(id);
+		return profileRepository.findById(id).get();
 	}
 	
 }

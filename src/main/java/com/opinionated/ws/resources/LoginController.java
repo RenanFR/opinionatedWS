@@ -132,7 +132,7 @@ public class LoginController {
 	public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
 		try {
 			String name = user.getName();
-			String password = (user.isSocialLogin() == null || !user.isSocialLogin()) ? user.getPassword() : "";
+			String password = (!user.isSocialLogin()) ? user.getPassword() : "";
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(name, password));
 			UserDetails loadUser = userService.loadUserByUsername(name);
 			String token = TokenService.createToken(name);

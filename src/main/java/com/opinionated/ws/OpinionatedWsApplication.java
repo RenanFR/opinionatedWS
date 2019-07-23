@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 import com.opinionated.ws.domain.auth.Profile;
 import com.opinionated.ws.domain.auth.User;
@@ -49,11 +46,6 @@ public class OpinionatedWsApplication {
 			LOGGER.info("Default user created with name " + user.getName());
 			userService.saveUser(user);
 		}
-	}
-	
-	@Bean
-	public MultipartResolver multipartResolver() {
-		return new StandardServletMultipartResolver();
 	}
 	
 }

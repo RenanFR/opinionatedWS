@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="renanfrodrigues (generated)" id="1563838555836-1">
+        <createSequence sequenceName="tbl_user_id_seq"/>
+    </changeSet>
+    <changeSet author="renanfrodrigues (generated)" id="1563838555836-2">
+        <createTable tableName="tbl_profile">
+            <column name="role" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="renanfrodrigues (generated)" id="1563838555836-3">
+        <createTable tableName="tbl_user">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="tbl_user_pkey"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="inclusion_date" type="VARCHAR(255)"/>
+            <column name="is_social_login" type="BOOL"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="twofasecret" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="renanfrodrigues (generated)" id="1563838555836-4">
+        <createTable tableName="tbl_user_profile">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="profile_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="renanfrodrigues (generated)" id="1563838555836-5">
+        <addPrimaryKey columnNames="role" constraintName="tbl_profile_pkey" tableName="tbl_profile"/>
+    </changeSet>
+    <changeSet author="renanfrodrigues (generated)" id="1563838555836-6">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="tbl_user_profile" constraintName="fk4wgwevksr5cpfhm8hv4b2xs70" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="tbl_user"/>
+    </changeSet>
+    <changeSet author="renanfrodrigues (generated)" id="1563838555836-7">
+        <addForeignKeyConstraint baseColumnNames="profile_id" baseTableName="tbl_user_profile" constraintName="fka14hvbmnmsyscq1j6fgj30nf8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="role" referencedTableName="tbl_profile"/>
+    </changeSet>
+    
+  	<include file="changelog/01-add-column-user-using-2fa.xml" relativeToChangelogFile="true"/>
+    
+</databaseChangeLog>
