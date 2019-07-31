@@ -45,10 +45,10 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		return userRepository
-					.findByName(username)
-					.orElseThrow(() -> new UsernameNotFoundException("User with name " + username + " not founded"));
+					.findByEmail(email)
+					.orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not founded"));
 	}
 	
 	public User findByName(String userName) {
