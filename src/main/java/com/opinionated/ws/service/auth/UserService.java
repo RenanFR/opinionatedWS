@@ -1,9 +1,14 @@
 package com.opinionated.ws.service.auth;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,7 +21,8 @@ import com.opinionated.ws.persistence.auth.ProfileRepository;
 import com.opinionated.ws.persistence.auth.UserRepository;
 
 @Service
-public class UserService implements UserDetailsService{
+@PropertySource("classpath:2fa.properties")
+public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -24,6 +30,20 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	private ProfileRepository profileRepository;
 	
+	private static String QR_PREFIX;
+	
+	private static String APP_NAME ;
+
+	@Value("${code.prefix}")
+	public static void setQRPrefix(String qrPrefix) {
+		QR_PREFIX = qrPrefix;
+	}
+
+	@Value("${app.name}")
+	public void setAppName(String appName) {
+		APP_NAME = appName;
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return userRepository
@@ -46,6 +66,9 @@ public class UserService implements UserDetailsService{
 				profileRepository.save(profile);
 			}
 		}
+		if (user.isUsing2FA()) {
+			user.setTwoFASecret(Base32.random());
+		}
 		this.userRepository.save(user);
 	}
 	
@@ -62,7 +85,7 @@ public class UserService implements UserDetailsService{
 	}
 	
 	public boolean userExists(String user) {
-		return userRepository.findByName(user).isPresent();
+		return userRepository.findByEmail(user).isPresent();
 	}
 	
 	public void saveUser(User user) {
@@ -74,6 +97,10 @@ public class UserService implements UserDetailsService{
 	
 	public Profile findProfileByDescription(String id) {
 		return profileRepository.findById(id).get();
+	}
+	
+	public String generateQRCode(User account) throws UnsupportedEncodingException {
+		return QR_PREFIX + URLEncoder.encode(String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", APP_NAME, account.getEmail(), account.getTwoFASecret(), APP_NAME), "UTF-8");
 	}
 	
 }

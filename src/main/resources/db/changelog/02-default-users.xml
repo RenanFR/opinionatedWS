@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="02" author="renan.rodrigues">
+	
+	    <insert catalogName="opinionated"
+	            schemaName="public"
+	            tableName="tbl_profile">
+	        <column name="role" type="VARCHAR(255)" value="ROLE"/>
+	    </insert>
+            
+	    <insert catalogName="opinionated"
+	            schemaName="public"
+	            tableName="tbl_user">
+	            
+            <column name="email" type="VARCHAR(255)" value="renan.rodrigues@accountfy.com"/>
+            <column name="inclusion_date" type="VARCHAR(255)" valueDate="2019-07-30"/>
+            <column name="is_social_login" type="BOOL" valueBoolean="false"/>
+            <column name="name" type="VARCHAR(255)" value="Renan Rodrigues"/>
+            <column name="password" type="VARCHAR(255)" value="renan"/>
+            <column name="using_2fa" type="BOOL" valueBoolean="true"/>
+            <column name="twofasecret" type="VARCHAR(255)" value="renan"/>
+            
+	    </insert>
+	    
+	    <insert catalogName="opinionated"
+	            schemaName="public"
+	            tableName="tbl_user_profile">
+	            
+            <column name="user_id" type="BIGINT" valueNumeric="1"/>
+            <column name="profile_id" type="VARCHAR(255)" value="ROLE"/>
+            
+	    </insert>	    
+	    
+	</changeSet>
+	
+</databaseChangeLog>

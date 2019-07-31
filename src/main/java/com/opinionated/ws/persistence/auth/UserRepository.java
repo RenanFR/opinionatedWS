@@ -11,5 +11,7 @@ import com.opinionated.ws.domain.auth.User;
 public interface UserRepository extends JpaRepository<User, Long>{
 	
 	public Optional<User> findByName(String name);
+	
+	public Optional<User> findByEmail(String email);
 
 }
