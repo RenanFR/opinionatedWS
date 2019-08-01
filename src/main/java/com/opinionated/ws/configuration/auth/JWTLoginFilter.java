@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opinionated.ws.domain.auth.User;
 
 //Responsible to intercept login authentication and after reading credentials provide the JWT to the user
-public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter{
+public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	public JWTLoginFilter(String url, AuthenticationManager authenticationManager) {
 		super(new AntPathRequestMatcher(url));
@@ -32,7 +32,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter{
 		User user = new ObjectMapper()
 				.readValue(request.getInputStream(), User.class);
 		return getAuthenticationManager()
-					.authenticate(new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword(), Collections.emptyList()));
+					.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), Collections.emptyList()));
 	}
 	
 	@Override

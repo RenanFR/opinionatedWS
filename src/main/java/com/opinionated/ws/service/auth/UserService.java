@@ -59,6 +59,14 @@ public class UserService implements UserDetailsService {
 		}
 	}
 	
+	public User findByEmail(String email) {
+		try {
+			return userRepository.findByEmail(email).get();
+		} catch (NoSuchElementException exception) {
+			return null;
+		}
+	}
+	
 	public void signUp(User user) {
 		List<Profile> allProfile = user.getProfiles();
 		for (Profile profile : allProfile) {

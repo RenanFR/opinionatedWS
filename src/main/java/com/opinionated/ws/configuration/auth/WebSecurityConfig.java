@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -37,7 +38,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter	{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.formLogin().authenticationDetailsSource(securityCustomizer)
+			.formLogin()
+				.authenticationDetailsSource(securityCustomizer)
+			.and()
+				.csrf()
+					.disable()
+			.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
@@ -46,8 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter	{
 				.antMatchers(HttpMethod.POST, "/login/google").permitAll()
 				.anyRequest().authenticated()
 			.and()
-			.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(new JWTAuthenticationVerifier(), UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(new JWTAuthenticationVerifier(), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Override
@@ -65,8 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter	{
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth
-			.authenticationProvider(authenticationProvider());
+		auth.authenticationProvider(authenticationProvider());
 	}
 	
 	@Bean

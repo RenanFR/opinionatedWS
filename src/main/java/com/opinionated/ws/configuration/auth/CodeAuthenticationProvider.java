@@ -19,7 +19,7 @@ public class CodeAuthenticationProvider extends DaoAuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String loginCode = ((CodeAuthenticationHandler) authentication.getDetails()).getVerificationCode();
-		User user = userService.findByName(authentication.getName());
+		User user = userService.findByEmail(authentication.getName());
 		if (user == null) {
 			throw new BadCredentialsException("Invalid credentials provided for authentication");
 		}
