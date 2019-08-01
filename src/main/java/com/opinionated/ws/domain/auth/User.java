@@ -1,5 +1,6 @@
 package com.opinionated.ws.domain.auth;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -43,7 +44,7 @@ public class User implements UserDetails {
 	@Column(name = "is_social_login")
 	private boolean socialLogin;
 	
-	private String inclusionDate;
+	private LocalDate inclusionDate;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tbl_user_profile",
@@ -52,7 +53,7 @@ public class User implements UserDetails {
     			inverseJoinColumns = @JoinColumn(
 					name = "profile_id", referencedColumnName = "role"))
 	private List<Profile> profiles = new ArrayList<Profile>();
-
+	
 	public User(Long id, String name, String password, Boolean isSocialLogin,
 			List<Profile> profiles) {
 		this.id = id;
@@ -60,6 +61,14 @@ public class User implements UserDetails {
 		this.password = password;
 		this.socialLogin = isSocialLogin;
 		this.profiles = profiles;
+	}
+
+	public User(String name, String email, String password, Boolean using2fa, boolean socialLogin) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		using2FA = using2fa;
+		this.socialLogin = socialLogin;
 	}
 
 	public User(String userRegistration) {
@@ -163,11 +172,11 @@ public class User implements UserDetails {
 		this.twoFASecret = twoFASecret;
 	}
 
-	public String getInclusionDate() {
+	public LocalDate getInclusionDate() {
 		return inclusionDate;
 	}
 
-	public void setInclusionDate(String inclusionDate) {
+	public void setInclusionDate(LocalDate inclusionDate) {
 		this.inclusionDate = inclusionDate;
 	}
 

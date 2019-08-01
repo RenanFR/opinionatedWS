@@ -112,7 +112,7 @@ public class LoginController {
 		user.setName(gmailUser.getName());
 		user.setPassword("");
 		user.setSocialLogin(true);
-		user.setInclusionDate(LocalDate.now().toString());
+		user.setInclusionDate(LocalDate.now());
 		user.setEmail(gmailUser.getEmail());
 		Set<Profile> roleProfile = Collections.singleton(userService.findProfileByDescription("ROLE"));
 		user.setProfiles(new ArrayList<Profile>(roleProfile));

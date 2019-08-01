@@ -2,6 +2,7 @@ package com.opinionated.ws.service.auth;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -12,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.opinionated.ws.domain.auth.Profile;
@@ -29,6 +30,9 @@ public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private ProfileRepository profileRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	private static String QR_PREFIX;
 	
@@ -77,7 +81,8 @@ public class UserService implements UserDetailsService {
 		if (user.isUsing2FA()) {
 			user.setTwoFASecret(Base32.random());
 		}
-		this.userRepository.save(user);
+		user.setInclusionDate(LocalDate.now());
+		this.saveUser(user);
 	}
 	
 	public List<User> getAll() {
@@ -97,7 +102,6 @@ public class UserService implements UserDetailsService {
 	}
 	
 	public void saveUser(User user) {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		if (user.getPassword() != null)
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);

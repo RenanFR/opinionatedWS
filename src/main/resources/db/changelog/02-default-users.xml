@@ -19,12 +19,12 @@
 	            tableName="tbl_user">
 	            
             <column name="email" type="VARCHAR(255)" value="renan.rodrigues@accountfy.com"/>
-            <column name="inclusion_date" type="VARCHAR(255)" valueDate="2019-07-30"/>
+            <column name="inclusion_date" type="DATE" valueDate="2019-07-30"/>
             <column name="is_social_login" type="BOOL" valueBoolean="false"/>
             <column name="name" type="VARCHAR(255)" value="Renan Rodrigues"/>
-            <column name="password" type="VARCHAR(255)" value="renan"/>
+            <column name="password" type="VARCHAR(255)" value="$2a$10$xxvIy8JELQGl78UhboF/4OOzJ9M0.rdVs1BhuIxnwru5Gl5jMsM9q"/>
             <column name="using_2fa" type="BOOL" valueBoolean="true"/>
-            <column name="twofasecret" type="VARCHAR(255)" value="renan"/>
+            <column name="twofasecret" type="VARCHAR(255)" value="D5KMUMPSPAI3U2ZR"/>
             
 	    </insert>
 	    
