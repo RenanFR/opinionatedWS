@@ -26,8 +26,8 @@ public class AccountController {
 	public ResponseEntity<String> createAccount(@RequestBody NewUserDTO account) {
 		LOGGER.info("Creating user " + account);
 		User user = new User(account.getUserName(), account.getUserMail(), account.getPassword(), account.isUseTwoFactorAuth(), account.isSocialLogin());
-		userService.signUp(user);
-		return ResponseEntity.ok("Account created for user successfully");
+		String qrCodeOrMessage = userService.signUp(user);
+		return ResponseEntity.ok(qrCodeOrMessage);
 	}
 
 }

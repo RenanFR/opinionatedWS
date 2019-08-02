@@ -34,14 +34,9 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	private static String QR_PREFIX;
+	private static final String QR_PREFIX = "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=";
 	
 	private static String APP_NAME ;
-
-	@Value("${code.prefix}")
-	public static void setQRPrefix(String qrPrefix) {
-		QR_PREFIX = qrPrefix;
-	}
 
 	@Value("${app.name}")
 	public void setAppName(String appName) {
@@ -71,7 +66,7 @@ public class UserService implements UserDetailsService {
 		}
 	}
 	
-	public void signUp(User user) {
+	public String signUp(User user) {
 		List<Profile> allProfile = user.getProfiles();
 		for (Profile profile : allProfile) {
 			if (profileRepository.findById(profile.getRole()).get() == null) {
@@ -83,6 +78,11 @@ public class UserService implements UserDetailsService {
 		}
 		user.setInclusionDate(LocalDate.now());
 		this.saveUser(user);
+		try {
+			return user.isUsing2FA() ? this.generateQRCode(user) : "User created successfully";
+		} catch (UnsupportedEncodingException exception) {
+			return "Error generating QR code for user, ask for support";
+		}
 	}
 	
 	public List<User> getAll() {

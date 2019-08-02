@@ -60,7 +60,7 @@ public class LoginController {
 	}
 	
 	@GetMapping("exists/{user}")
-	public boolean userExists(@PathVariable("user")String user) {
+	public boolean userExists(@PathVariable("user") String user) {
 		boolean doesUserExists = userService.userExists(user);
 		return doesUserExists;
 	}
@@ -120,7 +120,7 @@ public class LoginController {
 		return user;
 	}
 	
-	public User checkGmailUser(GmailUser gmailUser) {
+	private User checkGmailUser(GmailUser gmailUser) {
 		User onDatabase = userService.findByName(gmailUser.getName());
 		if (onDatabase == null) {
 			return saveSocialUser(gmailUser);
@@ -141,6 +141,13 @@ public class LoginController {
 		} catch (AuthenticationException authenticationException) {
 			throw new BadCredentialsException("Authentication data provided is invalid");
 		}
+	}
+	
+	@GetMapping("uses-tfa/{user}")
+	public ResponseEntity<Boolean> checkTFAIsEnabledForUser(@PathVariable("user") String user) {
+		User account = userService.findByEmail(user);
+		boolean using2fa = account.isUsing2FA();
+		return ResponseEntity.ok(using2fa);
 	}
 	
 

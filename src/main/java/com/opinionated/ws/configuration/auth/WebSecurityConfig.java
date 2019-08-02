@@ -28,7 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter	{
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManager();
 	}
-	
 
 	//Include JWT generation from login request and common requests from a provided JWT
 	@Override
@@ -45,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter	{
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
 				.antMatchers(HttpMethod.GET, "/categories/test").permitAll()
 				.antMatchers(HttpMethod.GET, "/login/exists/{user}").permitAll()
+				.antMatchers(HttpMethod.GET, "/login//uses-tfa/{user}").permitAll()
 				.antMatchers(HttpMethod.POST, "/login/google").permitAll()
 				.anyRequest()
 				.authenticated()
